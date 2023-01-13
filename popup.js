@@ -17,6 +17,7 @@ const addEl = (value) => {
     button.addEventListener('click', () => {
         const index = BLOCKED.indexOf(value)
         BLOCKED.splice(index, 1)
+        chrome?.storage?.local.set({ 'key': BLOCKED }, function () { });
         el.remove()
     })
     el.appendChild(button)
@@ -34,12 +35,16 @@ const onAddEl = () => {
     button.innerText = 'X'
     button.className = 'remove'
     button.addEventListener('click', () => {
+        const index = BLOCKED.indexOf(input.value)
+        BLOCKED.splice(index, 1)
+        chrome?.storage?.local.set({ 'key': BLOCKED }, function () { });
         el.remove()
     })
 
     input.addEventListener('change', () => {
         if (!BLOCKED?.find((value) => value === input.value)) {
             BLOCKED.push(input.value)
+            chrome?.storage?.local.set({ 'key': BLOCKED }, function () { });
         }
     })
     el.appendChild(button)
@@ -61,9 +66,15 @@ const init = () => {
     button.addEventListener('click', onAddEl)
     flexRow.appendChild(button)
     document.body.appendChild(flexRow)
-    BLOCKED?.forEach((value) => {
-        addEl(value)
-    })
+
+    chrome?.storage?.local?.get(['key'], function (result) {
+        if (result.key) BLOCKED = result.key;
+        else chrome.storage.local.set({ 'key': BLOCKED }, function () { });
+        BLOCKED?.forEach((value) => {
+            addEl(value)
+        })
+    });
+
 }
 
 

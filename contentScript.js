@@ -5,7 +5,6 @@ if (typeof init === 'undefined') {
         '[id*="ads"]',
     ];
 
-
     const deep_iframe = (iframe) => {
         try {
             BLOCKED.forEach((selector) => {
@@ -23,9 +22,12 @@ if (typeof init === 'undefined') {
     }
 
 
-
-    const init = function () {
+    const init = () => {
         const debouncedRemoveElements = () => {
+            chrome?.storage?.local?.get(['key'], function (result) {
+                if (result.key) BLOCKED = result.key;
+                else chrome?.storage?.local?.set({ 'key': BLOCKED }, function () { });
+            });
             BLOCKED.forEach((selector) => {
                 const elements = document.querySelectorAll(selector);
                 elements?.forEach((element) => {

@@ -1,10 +1,10 @@
 let BLOCKED = [
-    '[class*="ad"]',
-    '[id*="ad"]',
+    '[class*="-ads-"]',
+    '[id*="-ads-"]',
+    
 ];
 
 let BLOCKED_URL = [
-    "animekimi.com",
 ]
 
 

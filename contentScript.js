@@ -33,7 +33,7 @@ if (typeof init === 'undefined') {
 
 
         const debouncedRemoveElements = () => {
-            python run.py run            try {
+            try {
                 chrome?.storage?.local?.get(['key'], function (result) {
                     if (result.key) BLOCKED_ELEMENT = result.key;
                     else chrome?.storage?.local?.set({ 'key': BLOCKED_ELEMENT }, () => { });

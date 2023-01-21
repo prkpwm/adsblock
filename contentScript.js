@@ -3,11 +3,11 @@ if (typeof init === 'undefined') {
 
     let BLOCKED_ELEMENT = [
         '[class*="-ads-"]',
-        '[id*="-ads-"]',
+        '[id*="ads"]',
+        '[id*="ad-container"]',
+        '[class*="banana"]',
+        '[style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;z-index: 6;display: flex;justify-content: center;align-items: center;"]'
     ];
-
-    let BLOCKED_URL = [
-    ]
 
     const deep_iframe = (iframe) => {
         try {
@@ -18,20 +18,11 @@ if (typeof init === 'undefined') {
                     element.style.display = 'none';
                 });
             });
-            // const iframes = iframe?.contentWindow?.document?.body?.querySelectorAll('iframe');
-            // if (iframes) {
-            //     iframes.forEach((iframe2) => {
-            //         deep_iframe(iframe2);
-            //     });
-            // }
+
         } catch (e) { }
     }
 
-
     const init = () => {
-
-
-
         const debouncedRemoveElements = () => {
             try {
                 chrome?.storage?.local?.get(['key'], function (result) {
@@ -44,7 +35,6 @@ if (typeof init === 'undefined') {
                 });
             }
             catch (e) { }
-
             BLOCKED_ELEMENT.forEach((selector) => {
                 const elements = document.querySelectorAll(selector);
                 elements?.forEach((element) => {
@@ -60,16 +50,12 @@ if (typeof init === 'undefined') {
             }
         }
         try {
-
-            BLOCKED_URL.forEach((url) => {
-                if (window.location.href.match(url)) { window.location.href = 'https://www.google.com/'; } else { }
-            });
-            setInterval(debouncedRemoveElements, 1000);
+            setInterval(debouncedRemoveElements, 100);
         } catch (e) { }
     }
-
-
     let count = 0;
     init();
 }
 
+
+chrome.runtime.sendMessage({ url: window.location.href })

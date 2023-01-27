@@ -6,11 +6,12 @@ let WRITE_URL = []
 
 
 const addEl = (value) => {
+    console.log(value)
     const el = document.createElement('div')
     el.className = 'content'
     const input = document.createElement('input')
     input.type = 'text'
-    input.value = value
+    input.value = value.name
     input.style.backgroundColor = 'white'
     input.style.color = 'black'
     el.appendChild(input)
@@ -18,7 +19,7 @@ const addEl = (value) => {
     button.innerText = 'X'
     button.className = 'remove'
     button.addEventListener('click', () => {
-        const index = BLOCKED.indexOf(value)
+        const index = BLOCKED.findIndex((item) => item.name === value.name)
         BLOCKED.splice(index, 1)
         chrome?.storage?.local.set({ 'key': BLOCKED }, () => { });
         el.remove()
@@ -32,7 +33,7 @@ const addUrl = (value) => {
     el.className = 'content'
     const input = document.createElement('input')
     input.type = 'text'
-    input.value = value
+    input.value = value.name
     input.style.backgroundColor = 'black'
     input.style.color = 'red'
     el.appendChild(input)
@@ -41,7 +42,7 @@ const addUrl = (value) => {
     button.innerText = 'X'
     button.className = 'remove'
     button.addEventListener('click', () => {
-        const index = BLOCKED_URL.indexOf(value)
+        const index = BLOCKED_URL.findIndex((item) => item.name === value.name)
         BLOCKED_URL.splice(index, 1)
         chrome?.storage?.local.set({ 'url': BLOCKED_URL }, () => { });
         el.remove()
@@ -51,11 +52,12 @@ const addUrl = (value) => {
 }
 
 const addWriteUrl = (value) => {
+    console.log(value)
     const el = document.createElement('div')
     el.className = 'content'
     const input = document.createElement('input')
     input.type = 'text'
-    input.value = value
+    input.value = value.name
     input.style.backgroundColor = 'black'
     input.style.color = 'white'
     el.appendChild(input)
@@ -64,7 +66,7 @@ const addWriteUrl = (value) => {
     button.innerText = 'X'
     button.className = 'remove'
     button.addEventListener('click', () => {
-        const index = WRITE_URL.indexOf(value)
+        const index = WRITE_URL.findIndex((item) => item.name === value.name)
         WRITE_URL.splice(index, 1)
 
         chrome?.storage?.local.set({ 'write_url': WRITE_URL }, () => { });
@@ -89,15 +91,15 @@ const onAddEl = () => {
     button.innerText = 'X'
     button.className = 'remove'
     button.addEventListener('click', () => {
-        const index = BLOCKED.indexOf(input.value)
+        const index = BLOCKED.findIndex((value) => value.name === input.value)
         BLOCKED.splice(index, 1)
         chrome?.storage?.local.set({ 'key': BLOCKED }, () => { });
         el.remove()
     })
 
     input.addEventListener('change', () => {
-        if (!BLOCKED?.find((value) => value === input.value)) {
-            BLOCKED.push(input.value)
+        if (!BLOCKED?.find((value) => value.name === input.value)) {
+            BLOCKED.push({ status: true, name: input.value })
             chrome?.storage?.local.set({ 'key': BLOCKED }, () => { });
         }
     })
@@ -119,15 +121,15 @@ const onAddUrl = () => {
     button.innerText = 'X'
     button.className = 'remove'
     button.addEventListener('click', () => {
-        const index = BLOCKED_URL.indexOf(input.value)
+        const index = BLOCKED_URL.findIndex((value) => value.name === input.value)
         BLOCKED_URL.splice(index, 1)
         chrome?.storage?.local.set({ 'url': BLOCKED_URL }, () => { });
         el.remove()
     })
 
     input.addEventListener('change', () => {
-        if (!BLOCKED_URL?.find((value) => value === input.value)) {
-            BLOCKED_URL.push(input.value)
+        if (!BLOCKED_URL?.find((value) => value.name === input.value)) {
+            BLOCKED_URL.push({ status: true, name: input.value })
             chrome?.storage?.local.set({ 'url': BLOCKED_URL }, () => { });
         }
     })
@@ -148,16 +150,15 @@ const onAddWriteUrl = () => {
     button.innerText = 'X'
     button.className = 'remove'
     button.addEventListener('click', () => {
-        const index = WRITE_URL.indexOf(input.value)
+        const index = WRITE_URL.findIndex((value) => value.name === input.value)
         WRITE_URL.splice(index, 1)
         chrome?.storage?.local.set({ 'write_url': WRITE_URL }, () => { });
         el.remove()
     })
 
     input.addEventListener('change', () => {
-        if (!WRITE_URL?.find((value) => value === input.value)) {
-            WRITE_URL.push(input.value)
-
+        if (!WRITE_URL?.find((value) => value.name === input.value)) {
+            WRITE_URL.push({ status: true, name: input.value })
             chrome?.storage?.local.set({ 'write_url': WRITE_URL }, () => { });
         }
     })

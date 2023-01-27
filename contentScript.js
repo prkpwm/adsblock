@@ -1,28 +1,57 @@
+
+
 let BLOCKED_ELEMENT = [
-    '[class*="-ads-"]',
-    '[id*="ads"]',
-    '[id*="ad-container"]',
-    '[class*="banana"]',
-    '[style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;z-index: 6;display: flex;justify-content: center;align-items: center;"]'
-];
+    {
+        name: '[class*="-ads-"]',
+        status: true
+    },
+    {
+        name: '[id*="ads"]',
+        status: true
+    },
+    {
+        name: '[id*="ad-container"]',
+        status: true
+    },
+    {
+        name: '[class*="banana"]',
+
+        status: true
+    },
+    {
+        name: '[style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;z-index: 6;display: flex;justify-content: center;align-items: center;"]',
+        status: true
+    }
+
+]
+
 
 let WRITE_URL = [
-    'youtube',
+    {
+        name: 'youtube',
+        status: true
+    }
 ]
+
+
 
 let BLOCKED_URL = [
-    'ads'
+    {
+        name: 'ads',
+        status: true
+    }
 ]
 
-let count = 0;
 
 const deep_iframe = (iframe) => {
     try {
         BLOCKED_ELEMENT.forEach((selector) => {
-            const elements = iframe?.contentWindow?.document?.body?.querySelectorAll(selector);
-            elements?.forEach((element) => {
-                element.style.display = 'none';
-            });
+            if (selector.status) {
+                const elements = iframe?.contentWindow?.document?.body?.querySelectorAll(selector.name);
+                elements?.forEach((element) => {
+                    element.style.display = 'none';
+                });
+            }
         });
 
     } catch (e) { }
@@ -30,7 +59,6 @@ const deep_iframe = (iframe) => {
 
 
 const debouncedRemoveElements = () => {
-    count++;
     try {
         chrome?.storage?.local?.get(['key'], function (result) {
             if (result.key) BLOCKED_ELEMENT = result.key;
@@ -49,19 +77,21 @@ const debouncedRemoveElements = () => {
 
 
     for (const url of BLOCKED_URL) {
-        if (window.location.href.match(url)) {
+        if (url.status && window.location.href.match(url.name)) {
             document.body.style.display = 'none';
             clearInterval(interval)
             return;
         }
     }
 
-    if (!WRITE_URL.some((url) => window.location.href.match(url))) {
+    if (!WRITE_URL.some((url) => window.location.href.match(url.name))) {
         BLOCKED_ELEMENT.forEach((selector) => {
-            const elements = document.querySelectorAll(selector);
-            elements?.forEach((element) => {
-                element.style.display = 'none';
-            });
+            if (selector.status) {
+                const elements = document.querySelectorAll(selector.name);
+                elements?.forEach((element) => {
+                    element.style.display = 'none';
+                });
+            }
         });
 
         const iframes = document.querySelectorAll('iframe');
@@ -70,13 +100,17 @@ const debouncedRemoveElements = () => {
                 deep_iframe(iframe);
             });
         }
-    }
-    if (count > 100) {
+    } else {
         clearInterval(interval)
-        return;
     }
 }
 
 try {
     var interval = setInterval(debouncedRemoveElements, 100);
 } catch (e) { }
+
+
+setTimeout(() => {
+    console.log(BLOCKED_ELEMENT, BLOCKED_URL, WRITE_URL)
+    clearInterval(interval)
+}, 3000)

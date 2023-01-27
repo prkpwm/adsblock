@@ -24,7 +24,27 @@ const addEl = (value) => {
         chrome?.storage?.local.set({ 'key': BLOCKED }, () => { });
         el.remove()
     })
+
+    const button2 = document.createElement('button')
+    const index = BLOCKED.findIndex((item) => item.name === value.name)
+    if (BLOCKED[index].status) {
+        button2.innerText = '| |'
+    } else {
+        button2.innerText = '>'
+    }
+    button2.className = 'pause'
+    button2.addEventListener('click', () => {
+        const index = BLOCKED.findIndex((item) => item.name === value.name)
+        BLOCKED[index].status = !BLOCKED[index].status
+        chrome?.storage?.local.set({ 'key': BLOCKED }, () => { });
+        if (BLOCKED[index].status) {
+            button2.innerText = '| |'
+        } else {
+            button2.innerText = '>'
+        }
+    })
     el.appendChild(button)
+    el.appendChild(button2)
     document.body.appendChild(el)
 }
 
@@ -47,7 +67,27 @@ const addUrl = (value) => {
         chrome?.storage?.local.set({ 'url': BLOCKED_URL }, () => { });
         el.remove()
     })
+    const button2 = document.createElement('button')
+    const index = BLOCKED_URL.findIndex((item) => item.name === value.name)
+    if (BLOCKED_URL[index].status) {
+        button2.innerText = '| |'
+    } else {
+        button2.innerText = '>'
+    }
+    button2.className = 'pause'
+    button2.addEventListener('click', () => {
+        const index = BLOCKED_URL.findIndex((item) => item.name === value.name)
+        BLOCKED_URL[index].status = !BLOCKED_URL[index].status
+        chrome?.storage?.local.set({ 'url': BLOCKED_URL }, () => { });
+        if (BLOCKED_URL[index].status) {
+            button2.innerText = '| |'
+
+        } else {
+            button2.innerText = '>'
+        }
+    })
     el.appendChild(button)
+    el.appendChild(button2)
     document.body.appendChild(el)
 }
 
@@ -72,7 +112,26 @@ const addWriteUrl = (value) => {
         chrome?.storage?.local.set({ 'write_url': WRITE_URL }, () => { });
         el.remove()
     })
+    const button2 = document.createElement('button')
+    const index = WRITE_URL.findIndex((item) => item.name === value.name)
+    if (WRITE_URL[index].status) {
+        button2.innerText = '| |'
+    } else {
+        button2.innerText = '>'
+    }
+    button2.className = 'pause'
+    button2.addEventListener('click', () => {
+        const index = WRITE_URL.findIndex((item) => item.name === value.name)
+        WRITE_URL[index].status = !WRITE_URL[index].status
+        chrome?.storage?.local.set({ 'write_url': WRITE_URL }, () => { });
+        if (WRITE_URL[index].status) {
+            button2.innerText = '| |'
+        } else {
+            button2.innerText = '>'
+        }
+    })
     el.appendChild(button)
+    el.appendChild(button2)
     document.body.appendChild(el)
 }
 

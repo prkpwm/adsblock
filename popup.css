@@ -71,6 +71,25 @@
   color: red;
 }
 
+.pause {
+  background-color: yellow;
+  color: black;
+  width: 10%;
+  height: 100%;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+  text-shadow:2px 0px 3px black;
+}
+
+.pause:hover {
+  background-color: white;
+  color: yellow;
+}
+
 input {
   width: 80%;
   height: 100%;

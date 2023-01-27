@@ -64,6 +64,7 @@
   border-radius: 5px;
   border: 1px solid black;
   cursor: pointer;
+  text-shadow:2px 0px 3px black;
 }
 
 .remove:hover {
@@ -105,6 +106,10 @@ input::placeholder {
   color: red;
 }
 
+
+
+
+
 div.content {
   width: 400px;
   height: 50px;
@@ -128,6 +133,7 @@ div.content {
   border-radius: 5px;
   border: 1px solid black;
   cursor: pointer;
+  text-shadow:2px 0px 3px black;
 }
 
 .add:hover {

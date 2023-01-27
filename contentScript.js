@@ -1,8 +1,6 @@
-
-
 let BLOCKED_ELEMENT = [
     {
-        name: '[class*="-ads-"]',
+        name: '[class*="ads"]',
         status: true
     },
     {
@@ -19,7 +17,7 @@ let BLOCKED_ELEMENT = [
         status: true
     },
     {
-        name: '[style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;z-index: 6;display: flex;justify-content: center;align-items: center;"]',
+        name: '[style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 6; display: flex; justify-content: center; align-items: center;"]',
         status: true
     }
 
@@ -106,11 +104,10 @@ const debouncedRemoveElements = () => {
 }
 
 try {
-    var interval = setInterval(debouncedRemoveElements, 100);
+    var interval = setInterval(debouncedRemoveElements, 50);
+    setTimeout(() => {
+        clearInterval(interval)
+    }, 3000)
 } catch (e) { }
 
 
-setTimeout(() => {
-    console.log(BLOCKED_ELEMENT, BLOCKED_URL, WRITE_URL)
-    clearInterval(interval)
-}, 3000)

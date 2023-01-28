@@ -1,6 +1,6 @@
 
 chrome.tabs.onUpdated.addListener((tabId, tab) => {
-  if (tab.url && tab.url) {
+  if (tab.url && tab.url.indexOf('chrome://') == -1) {
     chrome.storage.local.get(['url'], function (result) {
       if (result.url) {
         const BLOCKED_URL = result.url;
@@ -11,9 +11,6 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
         }
       }
     });
-  }
-
-  if (tab.url && tab.url.indexOf('chrome://') == -1) {
     chrome.scripting?.executeScript({
       files: ['contentScript.js'],
       target: { tabId: tab.id }

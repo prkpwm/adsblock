@@ -63,23 +63,15 @@ const deep_iframe = (frame) => {
 
 
 const debouncedRemoveElements = () => {
-    try {
-        chrome?.storage?.local?.get(['key'], function (result) {
-            if (result.key) BLOCKED_ELEMENT = result.key;
-            else chrome?.storage?.local?.set({ 'key': BLOCKED_ELEMENT }, () => { });
-        });
-        chrome?.storage?.local?.get(['url'], function (result) {
-            if (result.url) BLOCKED_URL = result.url;
-            else chrome?.storage?.local?.set({ 'url': BLOCKED_URL }, () => { });
-        });
-        chrome?.storage?.local?.get(['write_url'], function (result) {
-            if (result.write_url) WRITE_URL = result.write_url;
-            else chrome?.storage?.local?.set({ 'write_url': WRITE_URL }, () => { });
-        });
+    for (const url of BLOCKED_URL) {
+        if (url.status && window.location.href.match(url.name)) {
+            document.body.style.display = 'none';
+            clearInterval(interval)
+            return;
+        }
     }
-    catch (e) { }
 
-    if (!WRITE_URL.some((url) => window.location.href.match(url.name))) {
+    if (!WRITE_URL.some((url) => url.status && window.location.href.match(url.name))) {
         BLOCKED_ELEMENT.forEach((selector) => {
             if (selector.status) {
                 const elements = document.querySelectorAll(selector.name);
@@ -101,6 +93,20 @@ const debouncedRemoveElements = () => {
 }
 
 try {
+
+    chrome?.storage?.local?.get(['key'], function (result) {
+        if (result.key) BLOCKED_ELEMENT = result.key;
+        else chrome?.storage?.local?.set({ 'key': BLOCKED_ELEMENT }, () => { });
+    });
+    chrome?.storage?.local?.get(['url'], function (result) {
+        if (result.url) BLOCKED_URL = result.url;
+        else chrome?.storage?.local?.set({ 'url': BLOCKED_URL }, () => { });
+    });
+    chrome?.storage?.local?.get(['write_url'], function (result) {
+        if (result.write_url) WRITE_URL = result.write_url;
+        else chrome?.storage?.local?.set({ 'write_url': WRITE_URL }, () => { });
+    });
+
     var interval = setInterval(debouncedRemoveElements, 50);
     setTimeout(() => {
         clearInterval(interval)

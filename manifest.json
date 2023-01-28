@@ -2,7 +2,7 @@
     "name": "AdsBlocker",
     "version": "1.0.0",
     "description": "Blocker all ads",
-    "permissions": ["storage", "tabs"],
+    "permissions": ["storage", "tabs"], 
     "host_permissions": ["<all_urls>"],
     "background": {
       "service_worker": "background.js"

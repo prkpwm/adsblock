@@ -65,9 +65,8 @@ const deep_iframe = (frame) => {
 const debouncedRemoveElements = () => {
     for (const url of BLOCKED_URL) {
         if (url.status && window.location.href.match(url.name)) {
-            document.body.style.display = 'none';
+            window.location.href = 'https://www.google.com'
             clearInterval(interval)
-            return;
         }
     }
 
@@ -106,11 +105,12 @@ try {
         if (result.write_url) WRITE_URL = result.write_url;
         else chrome?.storage?.local?.set({ 'write_url': WRITE_URL }, () => { });
     });
-
-    var interval = setInterval(debouncedRemoveElements, 50);
     setTimeout(() => {
-        clearInterval(interval)
-    }, 3000)
+        var interval = setInterval(debouncedRemoveElements, 50);
+        setTimeout(() => {
+            clearInterval(interval)
+        }, 3000)
+    }, 10)
 } catch (e) { }
 
 

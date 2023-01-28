@@ -41,13 +41,19 @@ let BLOCKED_URL = [
 ]
 
 
-const deep_iframe = (iframe) => {
+const deep_iframe = (frame) => {
     try {
         BLOCKED_ELEMENT.forEach((selector) => {
             if (selector.status) {
-                const elements = iframe?.contentWindow?.document?.body?.querySelectorAll(selector.name);
+                const elements = frame?.contentWindow?.document?.body?.querySelectorAll(selector.name);
                 elements?.forEach((element) => {
                     element.style.display = 'none';
+                    const iframes = document.querySelectorAll('iframe');
+                    if (iframes) {
+                        iframes.forEach((iframe) => {
+                            deep_iframe(iframe);
+                        });
+                    }
                 });
             }
         });
@@ -72,15 +78,6 @@ const debouncedRemoveElements = () => {
         });
     }
     catch (e) { }
-
-
-    for (const url of BLOCKED_URL) {
-        if (url.status && window.location.href.match(url.name)) {
-            document.body.style.display = 'none';
-            clearInterval(interval)
-            return;
-        }
-    }
 
     if (!WRITE_URL.some((url) => window.location.href.match(url.name))) {
         BLOCKED_ELEMENT.forEach((selector) => {

@@ -12,7 +12,7 @@ let BLOCKED_ELEMENT = [
         status: true
     }, 
     {
-        name: '[class*="ad-"]',
+        name: '[id*="-ad-"]',
         status: true
     },
     {

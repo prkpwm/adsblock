@@ -8,12 +8,20 @@ let BLOCKED_ELEMENT = [
         status: true
     },
     {
-        name: '[id*="ad-container"]',
+        name: '[class*="-ad-"]',
+        status: true
+    }, 
+    {
+        name: '[class*="ad-"]',
         status: true
     },
     {
         name: '[class*="banana"]',
-
+        status: true
+    }
+    ,
+    {
+        name: '[class*="banner"]',
         status: true
     },
     {
@@ -39,6 +47,8 @@ let BLOCKED_URL = [
         status: true
     }
 ]
+
+let interval = null
 
 
 const deep_iframe = (frame) => {
@@ -92,7 +102,6 @@ const debouncedRemoveElements = () => {
 }
 
 try {
-
     chrome?.storage?.local?.get(['key'], function (result) {
         if (result.key) BLOCKED_ELEMENT = result.key;
         else chrome?.storage?.local?.set({ 'key': BLOCKED_ELEMENT }, () => { });
@@ -106,7 +115,7 @@ try {
         else chrome?.storage?.local?.set({ 'write_url': WRITE_URL }, () => { });
     });
     setTimeout(() => {
-        var interval = setInterval(debouncedRemoveElements, 50);
+        interval = setInterval(debouncedRemoveElements, 50);
         setTimeout(() => {
             clearInterval(interval)
         }, 3000)

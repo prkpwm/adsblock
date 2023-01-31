@@ -1,6 +1,6 @@
 {
     "name": "AdsBlocker",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Blocker all ads",
     "permissions": ["storage", "tabs"], 
     "host_permissions": ["<all_urls>"],

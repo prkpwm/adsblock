@@ -10,7 +10,7 @@ let BLOCKED_ELEMENT = [
     {
         name: '[class*="-ad-"]',
         status: true
-    }, 
+    },
     {
         name: '[id*="-ad-"]',
         status: true
@@ -102,17 +102,17 @@ const debouncedRemoveElements = () => {
 }
 
 try {
-    chrome?.storage?.local?.get(['key'], function (result) {
-        if (result.key) BLOCKED_ELEMENT = result.key;
-        else chrome?.storage?.local?.set({ 'key': BLOCKED_ELEMENT }, () => { });
+    chrome?.storage?.local?.get(['BLOCKED_ELEMENT'], function (result) {
+        if (result.BLOCKED_ELEMENT) BLOCKED_ELEMENT = result.BLOCKED_ELEMENT;
+        else chrome?.storage?.local?.set({ 'BLOCKED_ELEMENT': BLOCKED_ELEMENT }, () => { });
     });
-    chrome?.storage?.local?.get(['url'], function (result) {
-        if (result.url) BLOCKED_URL = result.url;
-        else chrome?.storage?.local?.set({ 'url': BLOCKED_URL }, () => { });
+    chrome?.storage?.local?.get(['BLOCKED_URL'], function (result) {
+        if (result.BLOCKED_URL) BLOCKED_URL = result.BLOCKED_URL;
+        else chrome?.storage?.local?.set({ 'BLOCKED_URL': BLOCKED_URL }, () => { });
     });
-    chrome?.storage?.local?.get(['write_url'], function (result) {
-        if (result.write_url) WRITE_URL = result.write_url;
-        else chrome?.storage?.local?.set({ 'write_url': WRITE_URL }, () => { });
+    chrome?.storage?.local?.get(['WRITE_URL'], function (result) {
+        if (result.WRITE_URL) WRITE_URL = result.WRITE_URL;
+        else chrome?.storage?.local?.set({ 'WRITE_URL': WRITE_URL }, () => { });
     });
     setTimeout(() => {
         interval = setInterval(debouncedRemoveElements, 50);
@@ -121,5 +121,6 @@ try {
         }, 3000)
     }, 10)
 } catch (e) { }
+
 
 
